@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Use cases (MediatR handlers), DTOs, contratos e portas para a infraestrutura. -->
+
+  <PropertyGroup>
+    <RootNamespace>Combinado.Application</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Combinado.Domain\Combinado.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

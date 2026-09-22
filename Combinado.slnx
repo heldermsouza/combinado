@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Combinado.Api/Combinado.Api.csproj" />
+    <Project Path="src/Combinado.Application/Combinado.Application.csproj" />
+    <Project Path="src/Combinado.Domain/Combinado.Domain.csproj" />
+    <Project Path="src/Combinado.Infrastructure/Combinado.Infrastructure.csproj" />
+    <Project Path="src/Combinado.SchedulerWorker/Combinado.SchedulerWorker.csproj" />
+    <Project Path="src/Combinado.WhatsAppWorker/Combinado.WhatsAppWorker.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Combinado.Application.Tests/Combinado.Application.Tests.csproj" />
+    <Project Path="tests/Combinado.Domain.Tests/Combinado.Domain.Tests.csproj" />
+    <Project Path="tests/Combinado.Integration.Tests/Combinado.Integration.Tests.csproj" />
+  </Folder>
+</Solution>

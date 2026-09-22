@@ -1,0 +1,62 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.swp
+.vs/
+*.DotSettings.user
+TestResults/
+*.trx
+coverage/
+*.coverage
+*.opencover.xml
+publish/
+artifacts/
+
+## Rider / VS Code
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+## Node / Next.js (src/web)
+node_modules/
+.next/
+out/
+.turbo/
+*.tsbuildinfo
+next-env.d.ts
+.eslintcache
+.pnpm-store/
+
+## Playwright
+playwright-report/
+test-results/
+blob-report/
+
+## Env / secrets — nunca commitar
+.env
+.env.*
+!.env.example
+*.pfx
+*.key
+*.pem
+appsettings.*.local.json
+infra/docker-compose.override.yml
+
+## Terraform
+infra/terraform/.terraform/
+infra/terraform/*.tfstate
+infra/terraform/*.tfstate.*
+infra/terraform/*.tfvars
+!infra/terraform/*.example.tfvars
+
+## OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+## Sentry
+.sentryclirc

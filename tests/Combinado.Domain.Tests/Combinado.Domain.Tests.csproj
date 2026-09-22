@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Testes de unidade das regras de negócio RN01–RN12 e value objects. Sem I/O. -->
+
+  <PropertyGroup>
+    <RootNamespace>Combinado.Domain.Tests</RootNamespace>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Combinado.Domain\Combinado.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

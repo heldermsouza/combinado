@@ -1,0 +1,42 @@
+<Project>
+
+  <!-- Aplica a todos os projetos do repositório. Versões de pacote ficam em Directory.Packages.props. -->
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors>nullable</WarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <AnalysisMode>Recommended</AnalysisMode>
+    <!-- Necessário para IDE0005 (usings desnecessários) rodar no build; CS1591 (membro público sem XML doc) é suprimido. -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <SatelliteResourceLanguages>en;pt-BR</SatelliteResourceLanguages>
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+    <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Authors>Combinado</Authors>
+    <Company>Combinado</Company>
+    <Product>Combinado</Product>
+    <Copyright>© Combinado</Copyright>
+    <RepositoryUrl>https://github.com/heldermsouza/combinado</RepositoryUrl>
+  </PropertyGroup>
+
+  <!-- Projetos de teste: relaxa regras que só fazem sentido em código de produção. -->
+  <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <NoWarn>$(NoWarn);CA1707;CA2007;CA1861;CA1515</NoWarn>
+  </PropertyGroup>
+
+</Project>

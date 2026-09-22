@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Testes de integração HTTP contra Postgres/Redis/RabbitMQ reais via Testcontainers. -->
+
+  <PropertyGroup>
+    <RootNamespace>Combinado.Integration.Tests</RootNamespace>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Combinado.Api\Combinado.Api.csproj" />
+  </ItemGroup>
+
+</Project>

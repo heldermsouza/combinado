@@ -1,0 +1,92 @@
+# Infra local do Combinado.
+#
+#   docker compose -f infra/docker-compose.yml up -d                 # só dependências (dev com dotnet watch / pnpm dev)
+#   docker compose -f infra/docker-compose.yml --profile app up -d   # dependências + api + workers + web (checkpoint Fase 0)
+#
+# Overrides locais (DSNs, MigrateOnStartup) vão em infra/docker-compose.override.yml (gitignored).
+# Variáveis em infra/.env (copiar de .env.example).
+
+name: combinado
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: combinado-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-combinado}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-combinado}
+      POSTGRES_DB: ${POSTGRES_DB:-combinado}
+      TZ: America/Sao_Paulo
+      PGTZ: America/Sao_Paulo
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-combinado} -d ${POSTGRES_DB:-combinado}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks: [combinado]
+
+  redis:
+    image: redis:7-alpine
+    container_name: combinado-redis
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru"]
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks: [combinado]
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: combinado-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-combinado}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-combinado}
+      RABBITMQ_DEFAULT_VHOST: /
+    ports:
+      - "${RABBITMQ_PORT:-5672}:5672"
+      - "${RABBITMQ_MGMT_PORT:-15672}:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks: [combinado]
+
+  seq:
+    image: datalust/seq:2026.1
+    container_name: combinado-seq
+    environment:
+      ACCEPT_EULA: "Y"
+      # Seq 2026.x exige configuração de autenticação no primeiro boot. Sem auth só em dev local.
+      SEQ_FIRSTRUN_NOAUTHENTICATION: "True"
+    ports:
+      - "${SEQ_PORT:-5341}:80"
+    volumes:
+      - seq-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/80' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks: [combinado]
+
+volumes:
+  postgres-data:
+  redis-data:
+  rabbitmq-data:
+  seq-data:
+
+networks:
+  combinado:
+    name: combinado

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- EF Core, Redis, RabbitMQ (Rebus), integrações externas. Implementa as portas de Application. -->
+
+  <PropertyGroup>
+    <RootNamespace>Combinado.Infrastructure</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Combinado.Application\Combinado.Application.csproj" />
+  </ItemGroup>
+
+</Project>

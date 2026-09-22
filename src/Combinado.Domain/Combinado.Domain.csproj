@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Núcleo do domínio: entidades, aggregates, value objects, domain events. Sem dependências externas. -->
+
+  <PropertyGroup>
+    <RootNamespace>Combinado.Domain</RootNamespace>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!-- Entry point HTTP: minimal APIs versionadas em /api/v1, webhooks, health checks. -->
+
+  <PropertyGroup>
+    <RootNamespace>Combinado.Api</RootNamespace>
+    <UserSecretsId>combinado-api</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Combinado.Infrastructure\Combinado.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Combinado.Integration.Tests" />
+  </ItemGroup>
+
+</Project>
