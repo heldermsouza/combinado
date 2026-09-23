@@ -140,6 +140,15 @@ dotnet_naming_symbols.interface.applicable_kinds = interface
 dotnet_naming_style.begins_with_i.required_prefix = I
 dotnet_naming_style.begins_with_i.capitalization = pascal_case
 
+# static readonly privados em PascalCase (ex.: JsonSerializerOptions compartilhado). Declarado antes da regra
+# de campos privados de propósito: a primeira regra que casa vence.
+dotnet_naming_rule.private_static_readonly_pascal.severity = warning
+dotnet_naming_rule.private_static_readonly_pascal.symbols = private_static_readonly_fields
+dotnet_naming_rule.private_static_readonly_pascal.style = pascal
+dotnet_naming_symbols.private_static_readonly_fields.applicable_kinds = field
+dotnet_naming_symbols.private_static_readonly_fields.applicable_accessibilities = private, private_protected
+dotnet_naming_symbols.private_static_readonly_fields.required_modifiers = static, readonly
+
 dotnet_naming_rule.private_fields_camel_underscore.severity = warning
 dotnet_naming_rule.private_fields_camel_underscore.symbols = private_fields
 dotnet_naming_rule.private_fields_camel_underscore.style = underscore_camel
