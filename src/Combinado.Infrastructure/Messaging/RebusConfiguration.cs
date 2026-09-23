@@ -23,7 +23,9 @@ public static class RebusConfiguration
     {
         return services.AddRebus(configure => configure
             .Logging(l => l.Serilog())
-            .Transport(t => t.UseRabbitMqAsOneWayClient(rabbitMqConnectionString)));
+            .Transport(t => t.UseRabbitMqAsOneWayClient(rabbitMqConnectionString))
+            // One-way não consome, mas o Rebus declara a fila de erro mesmo assim; usa a nossa em vez da "error" padrão.
+            .Options(o => o.RetryStrategy(errorQueueName: ErrorQueue, maxDeliveryAttempts: MaxDeliveryAttempts)));
     }
 
     /// <summary>

@@ -38,9 +38,16 @@
   <ItemGroup Label="Logging">
     <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
     <PackageVersion Include="Serilog.Extensions.Hosting" Version="10.0.0" />
+    <PackageVersion Include="Serilog.Settings.Configuration" Version="10.0.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageVersion Include="Serilog.Sinks.Seq" Version="9.1.0" />
     <PackageVersion Include="Serilog.Enrichers.Environment" Version="3.0.1" />
+  </ItemGroup>
+
+  <ItemGroup Label="Observabilidade">
+    <PackageVersion Include="Sentry.AspNetCore" Version="6.11.1" />
+    <PackageVersion Include="Sentry.Extensions.Logging" Version="6.11.1" />
+    <PackageVersion Include="Sentry.Serilog" Version="6.11.1" />
   </ItemGroup>
 
   <ItemGroup Label="Hosting / API">
