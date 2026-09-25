@@ -1,3 +1,6 @@
+# pnpm 11: build scripts de dependências só rodam se listados aqui.
+# @sentry/cli baixa o binário usado no upload de source maps (só com SENTRY_AUTH_TOKEN).
 allowBuilds:
+  "@sentry/cli": true
   sharp: false
   unrs-resolver: false

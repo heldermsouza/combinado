@@ -81,6 +81,99 @@ services:
       retries: 10
     networks: [combinado]
 
+  # ---------------------------------------------------------------------------
+  # Perfil "app": a stack completa em containers (checkpoint da Fase 0).
+  # Build context é a raiz do repo para os .NET (Directory.*.props) e src/web para o Next.
+  # ---------------------------------------------------------------------------
+  api:
+    build:
+      context: ..
+      dockerfile: src/Combinado.Api/Dockerfile
+    image: combinado-api:dev
+    container_name: combinado-api
+    profiles: [app]
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Postgres: Host=postgres;Port=5432;Database=${POSTGRES_DB:-combinado};Username=${POSTGRES_USER:-combinado};Password=${POSTGRES_PASSWORD:-combinado}
+      ConnectionStrings__Redis: redis:6379
+      ConnectionStrings__RabbitMq: amqp://${RABBITMQ_USER:-combinado}:${RABBITMQ_PASSWORD:-combinado}@rabbitmq:5672/
+      Seq__ServerUrl: http://seq:80
+      # Só aqui (stack local). Em staging/prod migrations rodam no pipeline (CLAUDE.md §10).
+      Database__MigrateOnStartup: "true"
+      Sentry__Dsn: ${SENTRY_DSN_API:-}
+    ports:
+      - "${API_PORT:-8080}:8080"
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      rabbitmq: { condition: service_healthy }
+      seq: { condition: service_healthy }
+    healthcheck:
+      # Imagem aspnet não tem curl/wget; bash + /dev/tcp resolve.
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/8080 && printf \"GET /health HTTP/1.0\\r\\nHost: localhost\\r\\n\\r\\n\" >&3 && grep -q \"200 OK\" <&3'"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    networks: [combinado]
+
+  whatsapp-worker:
+    build:
+      context: ..
+      dockerfile: src/Combinado.WhatsAppWorker/Dockerfile
+    image: combinado-whatsapp-worker:dev
+    container_name: combinado-whatsapp-worker
+    profiles: [app]
+    environment:
+      DOTNET_ENVIRONMENT: Development
+      ConnectionStrings__Postgres: Host=postgres;Port=5432;Database=${POSTGRES_DB:-combinado};Username=${POSTGRES_USER:-combinado};Password=${POSTGRES_PASSWORD:-combinado}
+      ConnectionStrings__Redis: redis:6379
+      ConnectionStrings__RabbitMq: amqp://${RABBITMQ_USER:-combinado}:${RABBITMQ_PASSWORD:-combinado}@rabbitmq:5672/
+      Seq__ServerUrl: http://seq:80
+      Sentry__Dsn: ${SENTRY_DSN_API:-}
+    depends_on:
+      api: { condition: service_healthy }
+    networks: [combinado]
+
+  scheduler-worker:
+    build:
+      context: ..
+      dockerfile: src/Combinado.SchedulerWorker/Dockerfile
+    image: combinado-scheduler-worker:dev
+    container_name: combinado-scheduler-worker
+    profiles: [app]
+    environment:
+      DOTNET_ENVIRONMENT: Development
+      ConnectionStrings__Postgres: Host=postgres;Port=5432;Database=${POSTGRES_DB:-combinado};Username=${POSTGRES_USER:-combinado};Password=${POSTGRES_PASSWORD:-combinado}
+      ConnectionStrings__Redis: redis:6379
+      ConnectionStrings__RabbitMq: amqp://${RABBITMQ_USER:-combinado}:${RABBITMQ_PASSWORD:-combinado}@rabbitmq:5672/
+      Seq__ServerUrl: http://seq:80
+      Sentry__Dsn: ${SENTRY_DSN_API:-}
+    depends_on:
+      api: { condition: service_healthy }
+    networks: [combinado]
+
+  web:
+    build:
+      context: ../src/web
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:${API_PORT:-8080}
+        NEXT_PUBLIC_SENTRY_DSN: ${SENTRY_DSN_WEB:-}
+    image: combinado-web:dev
+    container_name: combinado-web
+    profiles: [app]
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    depends_on:
+      api: { condition: service_started }
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
+    networks: [combinado]
+
 volumes:
   postgres-data:
   redis-data:

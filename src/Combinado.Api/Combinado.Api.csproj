@@ -8,11 +8,9 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
-  <ItemGroup Label="Logging">
+  <ItemGroup Label="Logging / Observabilidade">
     <PackageReference Include="Serilog.AspNetCore" />
-    <PackageReference Include="Serilog.Sinks.Console" />
-    <PackageReference Include="Serilog.Sinks.Seq" />
-    <PackageReference Include="Serilog.Enrichers.Environment" />
+    <PackageReference Include="Sentry.AspNetCore" />
   </ItemGroup>
 
   <ItemGroup Label="API">
