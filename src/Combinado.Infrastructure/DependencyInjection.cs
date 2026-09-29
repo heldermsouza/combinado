@@ -1,9 +1,13 @@
+using Combinado.Application.Caixas;
+using Combinado.Application.Common;
 using Combinado.Infrastructure.Health;
 using Combinado.Infrastructure.Messaging;
 using Combinado.Infrastructure.Persistence;
+using Combinado.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using StackExchange.Redis;
 
 namespace Combinado.Infrastructure;
@@ -26,6 +30,9 @@ public static class DependencyInjection
         var rabbitMq = RequireConnectionString(configuration, RabbitMqConnectionName);
 
         services.AddDbContext<CombinadoDbContext>(options => PostgresOptions.Configure(options, postgres));
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<ICaixaRepository, CaixaRepository>();
+        services.TryAddSingleton(TimeProvider.System);
 
         services.AddSingleton<IConnectionMultiplexer>(_ =>
         {
