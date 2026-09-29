@@ -3,6 +3,7 @@ using System;
 using Combinado.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Combinado.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(CombinadoDbContext))]
-    partial class CombinadoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260929170355_Onboarding_CaixaParceiroCategoria")]
+    partial class Onboarding_CaixaParceiroCategoria
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -200,19 +200,21 @@ Cada fase termina com **checkpoint executável**: você deve ser capaz de mostra
 ```
 Caixa (aggregate root)
 ├── Id: CaixaId
-├── Parceiros: [Parceiro] (exatamente 2 no MVP)
-├── Categorias: [Categoria]
+├── Status: Pendente (1 parceiro, aguardando "SIM COMBINADO") | Ativo (2 parceiros)
+├── Parceiros: [Parceiro] (máx 2; nasce com o fundador — decisão 2026-09-25)
+├── Categorias: [Categoria] (nasce com o conjunto padrão)
 ├── RendaMensal: Dinheiro
 ├── TrialIniciadoEm: DateTime?
 ├── PlanoAtivo: bool
 ├── Timezone: string (default "America/Sao_Paulo")
-└── Métodos: VincularParceiro, IniciarTrial, AtivarPlano
+└── Métodos: Criar, ConvidarParceiro, VincularParceiro, IniciarTrial, AtivarPlano
 
 Parceiro (entity)
 ├── Id: ParceiroId
 ├── Nome: string
-├── NumeroWhatsApp: NumeroWhatsApp (VO com validação DDI+DDD)
-├── EmailPrimario: bool
+├── NumeroWhatsApp: NumeroWhatsApp (VO E.164, só celular BR; índice único = RN01)
+├── EmailPrimario: bool (fundador)
+├── ConvidadoEm / VinculadoEm: DateTimeOffset
 └── PrefsNotificacao: PrefsNotificacao
 
 Transacao (aggregate root)

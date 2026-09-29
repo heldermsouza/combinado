@@ -1,3 +1,4 @@
+using Combinado.Domain.Caixas;
 using Microsoft.EntityFrameworkCore;
 
 namespace Combinado.Infrastructure.Persistence;
@@ -9,6 +10,8 @@ namespace Combinado.Infrastructure.Persistence;
 public sealed class CombinadoDbContext(DbContextOptions<CombinadoDbContext> options) : DbContext(options)
 {
     public const string DefaultSchema = "public";
+
+    public DbSet<Caixa> Caixas => Set<Caixa>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
