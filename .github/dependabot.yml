@@ -37,6 +37,17 @@ updates:
         patterns: ["@tanstack/*"]
       tooling:
         patterns: ["eslint*", "typescript", "tailwindcss", "@tailwindcss/*"]
+    ignore:
+      # Majors travados enquanto o ecossistema não acompanha (verificado 2026-09-29):
+      # - eslint 10 quebra o carregamento do eslint-config-next 16.3
+      # - typescript 7 não é aceito pelo typescript-eslint 8.x (peer < 6.1)
+      # - @types/node segue a major do runtime (Node 24), não a última publicada
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
     commit-message:
       prefix: "chore(deps)"
 
