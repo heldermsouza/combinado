@@ -23,7 +23,7 @@
   <ItemGroup Label="Redis / RabbitMQ">
     <PackageVersion Include="StackExchange.Redis" Version="3.3.1" />
     <PackageVersion Include="RabbitMQ.Client" Version="7.2.2" />
-    <PackageVersion Include="Rebus" Version="8.9.4" />
+    <PackageVersion Include="Rebus" Version="8.9.5" />
     <PackageVersion Include="Rebus.RabbitMq" Version="10.1.1" />
     <PackageVersion Include="Rebus.ServiceProvider" Version="10.7.2" />
     <PackageVersion Include="Rebus.Serilog" Version="8.1.0" />
