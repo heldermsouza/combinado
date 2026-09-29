@@ -5,7 +5,8 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 # Restore em camada separada: só invalida quando csproj/props mudam.
-COPY global.json Directory.Build.props Directory.Packages.props ./
+# .editorconfig entra porque carrega severidades de analyzers usadas no build (-warnaserror).
+COPY global.json Directory.Build.props Directory.Packages.props .editorconfig ./
 COPY src/Combinado.Domain/Combinado.Domain.csproj                 src/Combinado.Domain/
 COPY src/Combinado.Application/Combinado.Application.csproj       src/Combinado.Application/
 COPY src/Combinado.Infrastructure/Combinado.Infrastructure.csproj src/Combinado.Infrastructure/

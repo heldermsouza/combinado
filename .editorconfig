@@ -179,6 +179,7 @@ dotnet_diagnostic.CA2007.severity = none        # ConfigureAwait não se aplica 
 dotnet_diagnostic.CA1062.severity = none        # NRT já cobre null checks públicos
 dotnet_diagnostic.CA1305.severity = none        # IFormatProvider: cobrimos via InvariantCulture onde importa
 dotnet_diagnostic.CA1002.severity = none        # List<T> em DTOs
+dotnet_diagnostic.CA1716.severity = none        # "Error" colide com keyword do VB; projeto é C#-only
 dotnet_diagnostic.IDE0005.severity = warning    # usings desnecessários
 dotnet_diagnostic.IDE0055.severity = warning    # formatação (dotnet format)
 dotnet_diagnostic.IDE0160.severity = none
